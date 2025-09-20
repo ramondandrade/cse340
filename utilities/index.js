@@ -39,7 +39,6 @@ Util.buildClassificationGrid = async function(data){
       +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
       +' on CSE Motors" /></a>'
       grid += '<div class="namePrice">'
-      grid += '<hr />'
       grid += '<h2>'
       grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
       + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
@@ -47,14 +46,42 @@ Util.buildClassificationGrid = async function(data){
       grid += '</h2>'
       grid += '<span>$' 
       + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
+      grid += '<hr />'
       grid += '</div>'
       grid += '</li>'
+      
     })
     grid += '</ul>'
+    
   } else { 
     grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
   return grid
+}
+
+Util.buildInventoryDetail = async function(data){
+    let detail
+    if(data){
+        detail = '<div id="inv-detail">'
+        detail += '<div class="detail-header">'
+        detail += '<h1>' + data.inv_make + ' ' + data.inv_model + '</h1>'
+        detail += '<p>Classification: ' + data.classification_name + '</p>'
+        detail += '</div>'
+        detail += '<div class="detail-image">'
+        detail += '<img src="' + data.inv_image + '" alt="Image of ' + data.inv_make + ' ' + data.inv_model + ' on CSE Motors" />'
+        detail += '</div>'
+        detail += '<div class="detail-info">'
+        detail += '<h2>Price: $ ' + new Intl.NumberFormat('en-US').format(data.inv_price) + '</h2>'
+        detail += '<p>Year: ' + data.inv_year + '</p>'
+        detail += '<p>Miles: ' + new Intl.NumberFormat('en-US').format(data.inv_miles) + '</p>'
+        detail += '<p>Color: ' + data.inv_color + '</p>'
+        detail += '<p>Description: ' + data.inv_description + '</p>'
+        detail += '</div>'
+        detail += '</div>'
+    } else {
+        detail = '<p class="notice">Sorry, no matching vehicle could be found.</p>'
+    }
+    return detail
 }
 
 module.exports = Util
