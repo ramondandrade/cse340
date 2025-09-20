@@ -1,0 +1,9 @@
+<% if (title) { %>
+<h1 style="width:100%;text-align: center;"><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%# messages() %>
+
+<%- grid %>
