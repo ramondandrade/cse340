@@ -30,9 +30,23 @@ async function loginAccount(req, res) {
     let nav = await utilities.getNav()
     const { account_email, account_password } = req.body
 
+    let hashedPassword
+    try {
+        // regular password and cost (salt is generated automatically)
+        hashedPassword = await bcrypt.hashSync(account_password, 10)
+        
+    } catch (error) {
+        req.flash("notice", 'Sorry, there was an error processing the login.')
+        res.status(500).render("account/login", {
+            title: "Login",
+            nav,
+            errors: null,
+        })
+    }
+
     const loginResult = await accountModel.loginAccount(
         account_email,
-        account_password
+        hashedPassword
     )
 
     if (loginResult.rowCount > 0) {
