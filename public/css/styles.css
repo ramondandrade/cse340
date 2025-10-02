@@ -255,11 +255,12 @@ form div {
 
 form label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.2rem;
+  margin-top: 1rem;
   font-weight: 500;
 }
 
-form input {
+form input, form select, form textarea {
   width: 100%;
   padding: 0.7rem;
   border: 1px solid #ccc;

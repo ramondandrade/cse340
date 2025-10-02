@@ -1,6 +1,7 @@
 
 const e = require("connect-flash")
 const pool = require("../database/")
+const bcrypt = require('bcryptjs')
 
 /* **********************
  *   Check for existing email
@@ -19,12 +20,21 @@ async function checkExistingEmail(account_email){
 *   Login Account
 * *************************** */
 async function loginAccount(account_email, account_password){
-  try {
-    const sql = "SELECT * FROM account WHERE account_email = $1 AND account_password = $2"
-    return await pool.query(sql, [account_email, account_password])
-  } catch (error) {
-    return error.message
-  }
+    try {
+      const sql = "SELECT * FROM account WHERE account_email = $1"
+      const account = await pool.query(sql, [account_email])
+      if (!account.rows[0]) {
+        return {}
+      }
+      const passwordMatch = await bcrypt.compare(account_password, account.rows[0].account_password)
+      if (!passwordMatch) {
+        return {}
+      }
+      return account
+    } catch (error) {
+      return error.message
+    }
+
 }
 
 /* *****************************

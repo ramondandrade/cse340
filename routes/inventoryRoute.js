@@ -7,4 +7,12 @@ const invController = require("../controllers/invController")
 router.get("/type/:classificationId", invController.buildByClassificationId);
 router.get("/detail/:invId", invController.buildByInventoryId);
 
+router.get("/management", invController.management);
+
+router.get("/add-inventory", invController.buildAddInventory);
+router.post("/add-inventory", invController.processAddInventory);
+
+router.get("/add-classification", invController.buildAddClassification);
+router.post("/add-classification", invController.processAddClassification);
+
 module.exports = router;

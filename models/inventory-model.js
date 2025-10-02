@@ -42,5 +42,43 @@ async function getInventoryById(inv_id) {
   }
 }
 
+function addNewClassification(classification_name) {
+  return pool.query(
+    "INSERT INTO public.classification (classification_name) VALUES ($1) RETURNING *",
+    [classification_name]
+  )
+}
 
-module.exports = {getClassifications, getInventoryByClassificationId, getInventoryById}
+function addNewInventory(
+  inv_make,
+  inv_model,
+  inv_year,
+  inv_description,
+  inv_image,
+  inv_thumbnail,
+  inv_price,
+  inv_miles,
+  inv_color,
+  classification_id
+) {
+  return pool.query(
+    `INSERT INTO public.inventory 
+    (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+    [
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
+    ]
+  )
+}
+
+
+module.exports = {getClassifications, getInventoryByClassificationId, getInventoryById, addNewInventory,addNewClassification}
