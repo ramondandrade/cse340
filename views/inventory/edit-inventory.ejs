@@ -3,7 +3,7 @@
 
 <%- messages() %>
 
-<form id="addInvForm" method="post" action="/inv/add-inventory">
+<form id="updateForm" method="post" action="/inv/update">
 
     <label for="classification_id">Classification:</label>
     <%- classificationSelect %>
@@ -44,7 +44,9 @@
     <input type="text" id="inv_color" name="inv_color" required
         value="<%= locals.inv_color ? locals.inv_color : '' %>">
 
-    <button type="submit">Add Vehicle</button>
+    <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
+    <br><br>
+    <button type="submit">Update Vehicle</button>
 </form>
 
 <script>

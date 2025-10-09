@@ -17,6 +17,7 @@ const utilities = require("./utilities/")
 const session = require("express-session")
 const pool = require('./database/')
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
 
 /* ***********************
  * Routes
@@ -51,6 +52,8 @@ app.use(function(req, res, next){
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(cookieParser())
+app.use(utilities.checkJWTToken)
 
 /* ***********************
  * Local Server Information
@@ -70,3 +73,4 @@ app.listen(port, () => {
 app.get("/", baseController.buildHome);
 app.use("/inv", inventoryRoute)
 app.use("/account", accountRoute)
+

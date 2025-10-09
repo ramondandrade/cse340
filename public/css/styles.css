@@ -46,6 +46,15 @@ nav a:hover {
   color: #00c6fb;
 }
 
+a {
+  color: #0057b7;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #00c6fb;
+}
+
 #top-header {
   background: linear-gradient(90deg, #00c6fb 0%, #0057b7 100%);
   color: #fff;
@@ -260,7 +269,7 @@ form label {
   font-weight: 500;
 }
 
-form input, form select, form textarea {
+input, select, textarea {
   width: 100%;
   padding: 0.7rem;
   border: 1px solid #ccc;
@@ -269,6 +278,7 @@ form input, form select, form textarea {
 }
 
 form button {
+  margin-top:10px;
   background: #0057b7;
   color: #fff;
   padding: 0.7rem 1.2rem;
@@ -281,6 +291,93 @@ form button {
 
 form button:hover {
   background: #00c6fb;
+}
+
+main{
+  padding: 0.5rem;
+}
+
+/* Inventory Display Styles */
+#inventoryDisplay {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+#inventoryDisplay th,
+#inventoryDisplay td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+#inventoryDisplay th {
+  background-color: #f4f4f4;
+  font-weight: 600;
+  color: #333;
+}
+
+#inventoryDisplay tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#inventoryDisplay tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+#inventoryDisplay img {
+    max-width: 100px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+  #inventoryDisplay {
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+  #inventoryDisplay img {
+    max-width: 60px;
+  }
+}
+
+/* Account Update Forms */
+.update-forms {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.update-forms fieldset {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 0;
+}
+
+.update-forms legend {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0057b7;
+  padding: 0 0.5rem;
+}
+
+#tools span {
+  margin-right: 1rem;
+  color: #fff;
+}
+
+#tools a {
+  margin-left: 0.5rem;
 }
 
 @media (max-width: 700px) {
