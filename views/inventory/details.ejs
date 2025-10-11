@@ -1,9 +1,33 @@
 <h1 style="width:100%;text-align: center;"><%= title %></h1>
+
+<%- messages() %>
+
 <%- details %>
 
-<% if (messages) { %>
-    <div class="messages">
-        <%= messages %>
+<div id="comments-section">
+    <h2>Comments</h2>
+    <div id="comments-list">
+        <!-- Comments will be dynamically loaded here -->
     </div>
-<% } %>
+
+    <% if (locals.loggedin) { %>
+        <form id="commentForm" action="/comments/addComment" method="post">
+            <input type="hidden" name="inv_id" value="<%- inv_id %>">
+             <input type="hidden" name="account_id" value="<%- locals.accountData.account_id %>">
+            <label for="comment_text">Add a Comment:</label>
+            <textarea id="comment_text" name="comment_text" required></textarea>
+            <button type="submit">Submit Comment</button>
+        </form>
+    <% } else { %>
+        <p><a href="/account/login">Log in</a> to add a comment.</p>
+    <% } %>
+</div>
+
+<script src="../../js/comments.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadComments('<%- inv_id %>');
+    });
+</script>
+
 

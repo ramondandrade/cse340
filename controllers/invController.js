@@ -7,35 +7,48 @@ const invCont = {}
  *  Build inventory by classification view
  * ************************** */
 invCont.buildByClassificationId = async function (req, res, next) {
-    const classification_id = req.params.classificationId
-    let messages = [];
-    let className = '';
-    let grid = '';
+  const classification_id = req.params.classificationId
+  let messages = [];
+  let className = '';
+  let grid = '';
 
-    try {
-        const data = await invModel.getInventoryByClassificationId(classification_id)
-        grid = await utilities.buildClassificationGrid(data)
-        className = data[0].classification_name  + " vehicles";
-    } catch (error) {
-        messages.push('An error occurred while loading details: ' + error.message);
-        className = 'No Classification Found';
-    }
+  try {
+    const data = await invModel.getInventoryByClassificationId(classification_id)
+    grid = await utilities.buildClassificationGrid(data)
+    className = data[0].classification_name + " vehicles";
+  } catch (error) {
+    messages.push('An error occurred while loading details: ' + error.message);
+    className = 'No Classification Found';
+  }
 
-    let nav = await utilities.getNav()
-   
-    res.render("./inventory/classification", {
+  let nav = await utilities.getNav()
+
+  req.flash('info', messages.join('<br>'));
+
+  res.render("./inventory/classification", {
     title: className,
     nav,
     grid,
-    messages: messages.join('<br>')
-    })
+  })
 }
 
 invCont.buildByInventoryId = async function (req, res, next) {
   const inv_id = req.params.invId
   let details = '';
-    let className = '';
-    let messages = [];
+  let className = '';
+  let messages = [];
+
+  if (!inv_id || isNaN(inv_id)) {
+
+    req.flash(
+      "error",
+      "Invalid inventory ID."
+    )
+
+    res.redirect("/inv/");
+
+  }
+
   try {
     const data = await invModel.getInventoryById(inv_id)
     details = await utilities.buildInventoryDetail(data)
@@ -45,14 +58,17 @@ invCont.buildByInventoryId = async function (req, res, next) {
     className = 'No Vehicle Found';
   }
 
- let nav = await utilities.getNav()
+  let nav = await utilities.getNav()
+
+  req.flash('info', messages.join('<br>'));
 
   res.render("./inventory/details", {
     title: className,
     nav,
     details,
-    messages: messages.join('<br>')
+    inv_id
   })
+
 }
 
 invCont.buildAddClassification = async function (req, res, next) {
@@ -103,7 +119,6 @@ invCont.processAddClassification = async function (req, res) {
       })
     }
   } catch (error) {
-    console.error(error)
     res.status(500).render("inventory/add-classification", {
       title: "Add Classification",
       nav,
@@ -200,12 +215,8 @@ invCont.processAddInventory = async function (req, res) {
 
 invCont.getInventoryJSON = async (req, res, next) => {
   const classification_id = parseInt(req.params.classification_id)
-  const invData = await invModel.getInventoryByClassificationId(classification_id)
-  if (invData[0].inv_id) {
-    return res.json(invData)
-  } else {
-    next(new Error("No data returned"))
-  }
+  const invData = await invModel.getInventoryByClassificationId(classification_id) || []
+  return res.json(invData)
 }
 
 /* ***************************
@@ -255,7 +266,7 @@ invCont.updateInventory = async function (req, res, next) {
     classification_id,
   } = req.body
   const updateResult = await invModel.updateInventory(
-    inv_id,  
+    inv_id,
     inv_make,
     inv_model,
     inv_description,
@@ -277,21 +288,21 @@ invCont.updateInventory = async function (req, res, next) {
     const itemName = `${inv_make} ${inv_model}`
     req.flash("notice", "Sorry, the insert failed.")
     res.status(501).render("inventory/edit-inventory", {
-    title: "Edit " + itemName,
-    nav,
-    classificationSelect: classificationSelect,
-    errors: null,
-    inv_id,
-    inv_make,
-    inv_model,
-    inv_year,
-    inv_description,
-    inv_image,
-    inv_thumbnail,
-    inv_price,
-    inv_miles,
-    inv_color,
-    classification_id
+      title: "Edit " + itemName,
+      nav,
+      classificationSelect: classificationSelect,
+      errors: null,
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id
     })
   }
 }

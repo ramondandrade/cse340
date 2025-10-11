@@ -297,6 +297,21 @@ main{
   padding: 0.5rem;
 }
 
+.comments{
+  background: #e0f7fa;
+  border-left: 4px solid #00acc1;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+.delete-comment{
+  color: #d32f2f;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
 /* Inventory Display Styles */
 #inventoryDisplay {
   width: 100%;

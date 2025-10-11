@@ -1,0 +1,21 @@
+<h1 style="width:100%;text-align: center;"><%= title %></h1>
+<p>
+<a href="/inv/" title="Click to return to Inventory Management">Return to Inventory Management</a>
+</p>
+
+<%- messages() %>
+
+<div id="comments-section">
+    <div id="comments-list">
+        <!-- Comments will be dynamically loaded here -->
+    </div>
+</div>
+
+<script src="../../js/comments.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadComments('<%- inv_id %>');
+    });
+</script>
+
+
